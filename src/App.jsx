@@ -8,13 +8,12 @@ import logo from "./assets/logo.png";
 
 const Mainpage = styled.div`
     background-color: #fb6b6b;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0px;
-    padding: 0px;
+    margin-bottom: 60px;
 `;
 const ZapLogo = styled.div`
     display: flex;

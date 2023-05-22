@@ -45,7 +45,11 @@ const RecCard = styled.div`
         align-items: center;
         text-align: center;
     }
+    .answer {
+        width: 100%;
+    }
     .flipped {
+        width: 100%;
         flex-direction: column;
     }
     .forgot {
@@ -91,8 +95,8 @@ function CardQuestion({ question, answer, zapCard, index, tapCard }) {
                             data-test="partial-btn"
                             className="button almost"
                             onClick={() => {
-                                zapCard(index, "help");
-                                tapCard(index, false, "help");
+                                zapCard(index, "nearly");
+                                tapCard(index, false, "nearly");
                             }}
                         >
                             Quase não lembrei
@@ -101,8 +105,8 @@ function CardQuestion({ question, answer, zapCard, index, tapCard }) {
                             data-test="zap-btn"
                             className="button zap"
                             onClick={() => {
-                                zapCard(index, "acerto");
-                                tapCard(index, false, "acerto");
+                                zapCard(index, "zapped");
+                                tapCard(index, false, "zapped");
                             }}
                         >
                             Zap!
