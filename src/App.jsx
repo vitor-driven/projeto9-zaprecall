@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InfoBar from "./InfoBar";
 import RecallComp from "./RecallComp";
+import cards from "./Deck";
 import GlobalStyle from "./GlobalStyle";
 import styled from "styled-components";
 import logo from "./assets/logo.png";
@@ -33,15 +34,52 @@ const ZapLogo = styled.div`
         color: white;
     }
 `;
+let cardsData = cards.map((value) => ({
+    ...value,
+    tap: false,
+    status: "",
+}));
+
 function App() {
+    const [questions, setQuestions] = useState(cardsData);
+    const [answers, setAnswers] = useState([]);
+    function tapCard(cardIndex, tap = true, status = "") {
+        const newQuestions = questions.map((value, index) => {
+            if (index === cardIndex) {
+                return {
+                    ...value,
+                    tap: tap,
+                    status,
+                };
+            }
+            return {
+                ...value,
+                tap: false,
+            };
+        });
+        setQuestions([...newQuestions]);
+    }
+
+    function zapCard(cardIndex, status) {
+        if (answers.some((value) => value.index === cardIndex)) {
+            return;
+        }
+        setAnswers([
+            ...answers,
+            {
+                index: cardIndex,
+                status,
+            },
+        ]);
+    }
     return (
         <Mainpage>
             <ZapLogo>
                 <img src={logo} />
                 <span>ZapRecall</span>
             </ZapLogo>
-            <RecallComp />
-            <InfoBar />
+            <RecallComp zapCard={zapCard} tapCard={tapCard} />
+            <InfoBar questions={questions} answers={answers} />
         </Mainpage>
     );
 }

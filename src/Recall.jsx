@@ -24,8 +24,14 @@ const RecCard = styled.div`
     .buttons {
         display: flex;
         flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
     }
-
+    .showqtn {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
     .button {
         border-radius: 5px;
         height: 38px;
@@ -37,9 +43,9 @@ const RecCard = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        text-align: center;
     }
     .flipped {
-        display: flex;
         flex-direction: column;
     }
     .forgot {
@@ -57,47 +63,50 @@ function CardQuestion({ question, answer, zapCard, index, tapCard }) {
     const [zap, setZap] = useState(false);
 
     return (
-        <RecCard data-test="flashcard" className="flipped">
+        <RecCard data-test="flashcard">
             {!zap ? (
-                <div data-test="flashcard-text">{question}</div>
-            ) : (
-                <div data-test="flashcard-text">{answer}</div>
-            )}
-            {!zap ? (
-                <div data-test="turn-btn" onClick={() => setZap(true)}>
-                    <img src={Arrow} alt="" />
+                <div className="showqtn">
+                    <div data-test="flashcard-text">{question}</div>
+                    <div data-test="turn-btn" onClick={() => setZap(true)}>
+                        <img src={Arrow} alt="" />
+                    </div>
                 </div>
             ) : (
-                <div className="buttons">
-                    <div
-                        data-test="no-btn"
-                        className="button forgot"
-                        onClick={() => {
-                            zapCard(index, "wrong");
-                            tapCard(index, false, "wrong");
-                        }}
-                    >
-                        Não lembrei
+                <div className="flipped">
+                    <div data-test="flashcard-text" className="answer">
+                        {answer}
                     </div>
-                    <div
-                        data-test="partial-btn"
-                        className="button almost"
-                        onClick={() => {
-                            zapCard(index, "help");
-                            tapCard(index, false, "help");
-                        }}
-                    >
-                        Quase não lembrei
-                    </div>
-                    <div
-                        data-test="zap-btn"
-                        className="button zap"
-                        onClick={() => {
-                            zapCard(index, "acerto");
-                            tapCard(index, false, "acerto");
-                        }}
-                    >
-                        Zap!
+                    <div className="buttons">
+                        <div
+                            data-test="no-btn"
+                            className="button forgot"
+                            onClick={() => {
+                                zapCard(index, "wrong");
+                                tapCard(index, false, "wrong");
+                            }}
+                        >
+                            Não lembrei
+                        </div>
+                        <div
+                            data-test="partial-btn"
+                            className="button almost"
+                            onClick={() => {
+                                zapCard(index, "help");
+                                tapCard(index, false, "help");
+                            }}
+                        >
+                            Quase não lembrei
+                        </div>
+                        <div
+                            data-test="zap-btn"
+                            className="button zap"
+                            onClick={() => {
+                                zapCard(index, "acerto");
+                                tapCard(index, false, "acerto");
+                            }}
+                        >
+                            Zap!
+                        </div>
                     </div>
                 </div>
             )}
@@ -115,7 +124,7 @@ function Card({ setTapped, index, tapCard, status }) {
                 tapCard(index);
             }}
         >
-            <div data-test="flashcard-text">{`Pergunta ${index}`}</div>
+            <div data-test="flashcard-text">{`Pergunta ${index + 1}`}</div>
             <img data-test="play-btn" src={Play} alt="" />
         </RecCard>
     );

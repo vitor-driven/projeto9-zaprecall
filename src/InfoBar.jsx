@@ -18,10 +18,10 @@ const Counterbar = styled.div`
     left: 0;
 `;
 
-function InfoBar(props) {
+function InfoBar({ questions, answers }) {
     return (
         <Counterbar>
-            <span>{` Concluídos`}</span>
+            <span>{`${answers.length}/${questions.length} CONCLUIDOS`}</span>
         </Counterbar>
     );
 }
