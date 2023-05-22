@@ -57,15 +57,20 @@ function CardQuestion({ question, answer, zapCard, index, tapCard }) {
     const [zap, setZap] = useState(false);
 
     return (
-        <RecCard className="flipped">
-            {!zap ? question : answer}
+        <RecCard data-test="flashcard" className="flipped">
             {!zap ? (
-                <div onClick={() => setZap(true)}>
+                <div data-test="flashcard-text">{question}</div>
+            ) : (
+                <div data-test="flashcard-text">{answer}</div>
+            )}
+            {!zap ? (
+                <div data-test="turn-btn" onClick={() => setZap(true)}>
                     <img src={Arrow} alt="" />
                 </div>
             ) : (
                 <div className="buttons">
                     <div
+                        data-test="no-btn"
                         className="button forgot"
                         onClick={() => {
                             zapCard(index, "wrong");
@@ -75,6 +80,7 @@ function CardQuestion({ question, answer, zapCard, index, tapCard }) {
                         Não lembrei
                     </div>
                     <div
+                        data-test="partial-btn"
                         className="button almost"
                         onClick={() => {
                             zapCard(index, "help");
@@ -84,6 +90,7 @@ function CardQuestion({ question, answer, zapCard, index, tapCard }) {
                         Quase não lembrei
                     </div>
                     <div
+                        data-test="zap-btn"
                         className="button zap"
                         onClick={() => {
                             zapCard(index, "acerto");
@@ -101,14 +108,15 @@ function CardQuestion({ question, answer, zapCard, index, tapCard }) {
 function Card({ setTapped, index, tapCard, status }) {
     return (
         <RecCard
+            data-test="flashcard"
             className={`${status}`}
             onClick={() => {
                 if (status) return;
                 tapCard(index);
             }}
         >
-            {`Pergunta ${index + 1}`}
-            <img src={Play} alt="" />
+            <div data-test="flashcard-text">{`Pergunta ${index}`}</div>
+            <img data-test="play-btn" src={Play} alt="" />
         </RecCard>
     );
 }
