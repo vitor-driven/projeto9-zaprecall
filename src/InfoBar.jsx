@@ -18,10 +18,10 @@ const Counterbar = styled.div`
     left: 0;
 `;
 
-function InfoBar() {
+function InfoBar(props) {
     return (
         <Counterbar>
-            <span>0/4 CONCLUÍDOS</span>
+            <span>{` Concluídos`}</span>
         </Counterbar>
     );
 }

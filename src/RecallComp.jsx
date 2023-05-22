@@ -1,84 +1,74 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Recall from "./Recall";
+import cards from "./Deck";
 
 const RecallList = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     gap: 25px;
+    margin-top: 50px;
 `;
 
-const cards = [
-    {
-        question: "O que é JSX?",
-        answer: "Uma extensão da linguagem JavaScript",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-    {
-        question: "O React é __",
-        answer: "Uma biblioteca JavaScript para construção de interfaces",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-    {
-        question: "Componentes devem iniciar com __",
-        answer: "Letra maiúscula",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-    {
-        question: "Podemos colocar __ dentro do JSX",
-        answer: "expressões",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-    {
-        question: "O ReactDOM nos ajuda __",
-        answer: "Interagindo com a DOM para colocar componentes React na mesma",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-    {
-        question: "Usamos o npm para __",
-        answer: "Gerenciar os pacotes necessários e suas dependências",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-    {
-        question: "Usamos props para __",
-        answer: "Passar diferentes informações para componentes",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-    {
-        question: "Usamos estado (state) para __",
-        answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente",
-        state: 0,
-        open: false,
-        turned: false,
-        done: false,
-    },
-];
+let questionsData = cards.map((value) => ({
+    ...value,
+    tap: false,
+    status: "",
+}));
 
 function RecallComp() {
-    return <RecallList>{cards.map(Recall)}</RecallList>;
+    const [questions, setQuestions] = useState(questionsData);
+    const [answers, setAnswers] = useState([]);
+
+    function tapCard(cardIndex, tap = true, status = "") {
+        const newQuestions = questions.map((value, index) => {
+            if (index === cardIndex) {
+                return {
+                    ...value,
+                    tap: tap,
+                    status,
+                };
+            }
+            return {
+                ...value,
+                tap: false,
+            };
+        });
+        setQuestions([...newQuestions]);
+    }
+
+    function zapCard(cardIndex, status) {
+        if (answers.some((value) => value.index === cardIndex)) {
+            return;
+        }
+        setAnswers([
+            ...answers,
+            {
+                index: cardIndex,
+                status,
+            },
+        ]);
+    }
+
+    return (
+        <RecallList>
+            {questions.map((card, index) => (
+                <Recall
+                    key={index}
+                    index={index}
+                    question={card.question}
+                    answer={card.answer}
+                    tap={card.tap}
+                    tapCard={tapCard}
+                    zapCard={zapCard}
+                    status={card.status}
+                />
+            ))}
+        </RecallList>
+    );
 }
 
 export default RecallComp;
